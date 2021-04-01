@@ -5,21 +5,18 @@
     <div class='card mt-3'>
         <div class='card-body'>
             <h5 class="card-title mb-5">Tabela de vendas
-                <a href='' class='btn btn-secondary float-right btn-sm rounded-pill'><i class='fa fa-plus'></i>  Nova venda</a></h5>
-            <form>
+                <a href="{{route('sales.create')}}"  class='btn btn-secondary float-right btn-sm rounded-pill'><i class='fa fa-plus'></i>  Nova venda</a></h5>
+            <form action="" method="get" id='formFilter'>
                 <div class="form-row align-items-center">
                     <div class="col-sm-5 my-1">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Clientes</div>
                             </div>
-                            <select class="form-control" id="inlineFormInputName">
-                                <option>Clientes</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                            <select class="form-control" name='client' id="client">
+                               @foreach($clients as $key => $value)
+                                 <option value="{{$key}}">{{$value}}</option>
+                               @endforeach
                             </select>
                         </div>
                     </div>
@@ -29,11 +26,11 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Período</div>
                             </div>
-                            <input type="text" class="form-control date_range" id="inlineFormInputGroupUsername" placeholder="Username">
+                            <input type="text" class="form-control date_range" id="inlineFormInputGroupUsername" name="date_range" id="dateRange" placeholder="Username">
                         </div>
                     </div>
                     <div class="col-sm-1 my-1">
-                        <button type="submit" class="btn btn-primary" style='padding: 14.5px 16px;'>
+                        <button type="submit" class="btn btn-primary" id="btnFilter" style='padding: 14.5px 16px;'>
                             <i class='fa fa-search'></i></button>
                     </div>
                 </div>
@@ -53,48 +50,16 @@
                         Ações
                     </th>
                 </tr>
-                <tr>
-                    <td>
-                        Perfect Caps
-                    </td>
-                    <td>
-                        20/07/2019 19h15
-                    </td>
-                    <td>
-                        R$ 100,00
-                    </td>
-                    <td>
-                        <a href='' class='btn btn-primary'>Editar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Nature Caps
-                    </td>
-                    <td>
-                        20/07/2019 19h20
-                    </td>
-                    <td>
-                        R$ 125,00
-                    </td>
-                    <td>
-                        <a href='' class='btn btn-primary'>Editar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Libid Caps
-                    </td>
-                    <td>
-                        20/07/2019 19h45
-                    </td>
-                    <td>
-                        R$ 110,00
-                    </td>
-                    <td>
-                        <a href='' class='btn btn-primary'>Editar</a>
-                    </td>
-                </tr>
+                <tbody id="listSales">
+                @foreach($sales as $sale)
+                    <tr>
+                        <td>{{$sale->product->name}}</td>
+                        <td>{{$sale->date}}</td>
+                        <td>{{$sale->total}}</td>
+                        <td><a href="{{route('sales.edit',$sale->id)}}" class="btn btn-primary">Editar</a></td>
+                    </tr>
+                @endforeach
+                </tbody>
             </table>
         </div>
     </div>
@@ -118,10 +83,10 @@
                         Vendidos
                     </td>
                     <td>
-                        100
+                        {{$countStatusSold->amountCount}}
                     </td>
                     <td>
-                        R$ 100,00
+                        {{number_format($countStatusSold->totalSum,2,",",".")}}
                     </td>
                 </tr>
                 <tr>
@@ -129,10 +94,10 @@
                         Cancelados
                     </td>
                     <td>
-                        120
+                        {{$countStatusDisapproved->amountCount}}
                     </td>
                     <td>
-                        R$ 100,00
+                        {{number_format($countStatusDisapproved->totalSum,2,",",".")}}
                     </td>
                 </tr>
                 <tr>
@@ -140,10 +105,10 @@
                         Devoluções
                     </td>
                     <td>
-                        120
+                        {{$countStatusCanceled->amountCount}}
                     </td>
                     <td>
-                        R$ 100,00
+                        {{number_format($countStatusCanceled->totalSum,2,",",".")}}
                     </td>
                 </tr>
             </table>
@@ -153,7 +118,7 @@
     <div class='card mt-3'>
         <div class='card-body'>
             <h5 class="card-title mb-5">Produtos
-                <a href='' class='btn btn-secondary float-right btn-sm rounded-pill'><i class='fa fa-plus'></i>  Novo produto</a></h5>
+                <a href="{{route('products.create')}}" class='btn btn-secondary float-right btn-sm rounded-pill'><i class='fa fa-plus'></i>  Novo produto</a></h5>
             <table class='table'>
                 <tr>
                     <th scope="col">
@@ -166,40 +131,53 @@
                         Ações
                     </th>
                 </tr>
-                <tr>
-                    <td>
-                        Perfect Caps
-                    </td>
-                    <td>
-                        R$ 100,00
-                    </td>
-                    <td>
-                        <a href='' class='btn btn-primary'>Editar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Nature Caps
-                    </td>
-                    <td>
-                        R$ 120,00
-                    </td>
-                    <td>
-                        <a href='' class='btn btn-primary'>Editar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Libid Caps
-                    </td>
-                    <td>
-                        R$ 150,00
-                    </td>
-                    <td>
-                        <a href='' class='btn btn-primary'>Editar</a>
-                    </td>
-                </tr>
+                @foreach($products as $product)
+                    <tr>
+                        <td>{{$product->name}}</td>
+                        <td>{{$product->price}}</td>
+                        <td><a href="{{route('products.edit',$product->id)}}" class="btn btn-primary">Editar</a></td>
+                    </tr>
+                @endforeach
             </table>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script>
+         //request
+        function requestFilterSale(data){
+            return $.ajax({
+                method: 'GET',
+                url: "/sales",
+                data: data ?? null,
+            });
+        }
+
+        $('#formFilter').on('submit', function(event){
+            const  dataForm = {
+                client: $("#client").val(),
+                dateRange: $(".date_range").val()
+            }
+            const sales = requestFilterSale(dataForm);
+            sales.done(function(result){
+                $('#listSales').html('');
+                if(result.data.length == 0){
+                    $('#listSales').html('<tr><td colspan="4"><center>Nenhum dado encontrado!</center></td></tr>');
+                }
+                result.data.map(function(sale){
+                    $('#listSales').append(
+                        `<tr>
+                            <td>${sale.product.name}</td>
+                            <td>${sale.date}</td>
+                            <td>${sale.total}</td>
+                            <td>
+                             <a class="btn btn-primary" href="${sale.editUrl}" style="color:white;">Editar</a>
+                            </td>
+                        </tr>`
+                    );
+                });
+
+            });
+            event.preventDefault();
+        });
+    </script>
 @endsection

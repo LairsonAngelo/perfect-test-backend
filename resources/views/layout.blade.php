@@ -17,12 +17,23 @@
 <div class='wrapper'>
     <div id='wrapperContent' class='content container-fluid'>
         <div id='main'>
+            @if(Session::has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+            @if(Session::has('danger'))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('danger') }}
+                </div>
+            @endif
             @yield('content')
         </div>
     </div>
 </div>
 <script src="{{ url('/js/app.js') }}"></script>
 <script src="https://kit.fontawesome.com/d712964458.js" crossorigin="anonymous"></script>
+
 @yield('script')
 </body>
 </html>
